@@ -15,7 +15,7 @@ import getDocumentAssetIds from '../../utils/getDocumentAssetIds'
 type Props = {
   assetType?: AssetSourceComponentProps['assetType']
   children?: ReactNode
-  client: SanityClient
+  client: any
   document?: SanityDocument
   selectedAssets?: AssetSourceComponentProps['selectedAssets']
 }

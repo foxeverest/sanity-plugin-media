@@ -1,5 +1,5 @@
 import {yupResolver} from '@hookform/resolvers/yup'
-import type {MutationEvent} from '@sanity/client'
+// import type {any} from '@sanity/client'
 import {Box, Button, Card, Flex, Text} from '@sanity/ui'
 import {DialogTagEditProps, Tag} from '@types'
 import groq from 'groq'
@@ -107,7 +107,7 @@ const DialogTagEdit = (props: Props) => {
     )
   }
 
-  const handleTagUpdate = (update: MutationEvent) => {
+  const handleTagUpdate = (update: any) => {
     const {result, transition} = update
 
     if (result && transition === 'update') {

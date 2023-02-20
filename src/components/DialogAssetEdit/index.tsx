@@ -1,5 +1,5 @@
 import {yupResolver} from '@hookform/resolvers/yup'
-import type {MutationEvent} from '@sanity/client'
+// import type {any} from '@sanity/client'
 import {Box, Button, Card, Flex, Stack, Tab, TabList, TabPanel, Text} from '@sanity/ui'
 import {Asset, DialogAssetEditProps, ReactSelectOption} from '@types'
 import groq from 'groq'
@@ -112,7 +112,7 @@ const DialogAssetEdit = (props: Props) => {
     )
   }
 
-  const handleAssetUpdate = (update: MutationEvent) => {
+  const handleAssetUpdate = (update: any) => {
     const {result, transition} = update
 
     if (result && transition === 'update') {
@@ -342,6 +342,15 @@ const DialogAssetEdit = (props: Props) => {
                   value={currentAsset?.altText}
                 />
                 {/* Description */}
+                <FormFieldInputTextarea
+                  disabled={formUpdating}
+                  error={errors?.description}
+                  label="Description"
+                  name="description"
+                  ref={register}
+                  rows={3}
+                  value={currentAsset?.description}
+                />
                 <FormFieldInputTextarea
                   disabled={formUpdating}
                   error={errors?.description}

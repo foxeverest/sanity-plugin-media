@@ -1,10 +1,10 @@
-import type {MutationEvent} from '@sanity/client'
+// import type {any} from '@sanity/client'
 import {Card, Flex, studioTheme, ThemeProvider, ToastProvider} from '@sanity/ui'
 import {Asset, Tag} from '@types'
 import groq from 'groq'
 import React, {useEffect} from 'react'
 import {useDispatch} from 'react-redux'
-import type {AssetSourceComponentProps, SanityDocument} from 'sanity'
+// import type {AssetSourceComponentProps, SanityDocument} from 'sanity'
 import {TAG_DOCUMENT_NAME} from '../../constants'
 import {AssetBrowserDispatchProvider} from '../../contexts/AssetSourceDispatchContext'
 import useVersionedClient from '../../hooks/useVersionedClient'
@@ -23,21 +23,21 @@ import TagsPanel from '../TagsPanel'
 import UploadDropzone from '../UploadDropzone'
 
 type Props = {
-  assetType?: AssetSourceComponentProps['assetType']
-  document?: SanityDocument
-  onClose?: AssetSourceComponentProps['onClose']
-  onSelect?: AssetSourceComponentProps['onSelect']
-  selectedAssets?: AssetSourceComponentProps['selectedAssets']
+  assetType?: any['assetType']
+  document?: any
+  onClose?: any['onClose']
+  onSelect?: any['onSelect']
+  selectedAssets?: any['selectedAssets']
 }
 
-const BrowserContent = ({onClose}: {onClose?: AssetSourceComponentProps['onClose']}) => {
+const BrowserContent = ({onClose}: {onClose?: any['onClose']}) => {
   const client = useVersionedClient()
 
   // Redux
   const dispatch = useDispatch()
 
   // Callbacks
-  const handleAssetUpdate = (update: MutationEvent) => {
+  const handleAssetUpdate = (update: any) => {
     const {documentId, result, transition} = update
 
     if (transition === 'appear') {
@@ -53,7 +53,7 @@ const BrowserContent = ({onClose}: {onClose?: AssetSourceComponentProps['onClose
     }
   }
 
-  const handleTagUpdate = (update: MutationEvent) => {
+  const handleTagUpdate = (update: any) => {
     const {documentId, result, transition} = update
 
     if (transition === 'appear') {
