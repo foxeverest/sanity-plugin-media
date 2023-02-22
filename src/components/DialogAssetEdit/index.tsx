@@ -360,7 +360,7 @@ const DialogAssetEdit = (props: Props) => {
                   ref={register}
                   value={currentAsset?.isLicensed || false} />
 
-               <FormFieldInputText
+               {/* <FormFieldInputText
                   disabled={formUpdating}
                   error={errors?.altText}
                   label="Renew Date"
@@ -369,7 +369,7 @@ const DialogAssetEdit = (props: Props) => {
                   ref={register}
 
                   // value={currentAsset?.renewDate}
-                />
+                /> */}
 
               </Stack>
             </TabPanel>
