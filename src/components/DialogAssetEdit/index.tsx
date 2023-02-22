@@ -365,8 +365,10 @@ const DialogAssetEdit = (props: Props) => {
                   error={errors?.altText}
                   label="Renew Date"
                   name="renewDate"
+                  type="date"
                   ref={register}
-                  value={currentAsset?.renewDate ?? new Date(currentAsset?.renewDate)?.toISOString()?.split("T")[0]}
+
+                  value={currentAsset?.renewDate}
                 />
 
               </Stack>
