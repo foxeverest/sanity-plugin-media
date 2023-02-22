@@ -368,7 +368,7 @@ const DialogAssetEdit = (props: Props) => {
                   type="date"
                   ref={register}
 
-                  value={currentAsset?.renewDate}
+                  // value={currentAsset?.renewDate}
                 />
 
               </Stack>
