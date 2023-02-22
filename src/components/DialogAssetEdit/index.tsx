@@ -20,6 +20,7 @@ import AssetMetadata from '../AssetMetadata'
 import Dialog from '../Dialog'
 import DocumentList from '../DocumentList'
 import FileAssetPreview from '../FileAssetPreview'
+import FromFieldInputCheckbox from '../FormFieldCheckbox'
 import FormFieldInputTags from '../FormFieldInputTags'
 import FormFieldInputText from '../FormFieldInputText'
 import FormFieldInputTextarea from '../FormFieldInputTextarea'
@@ -351,15 +352,23 @@ const DialogAssetEdit = (props: Props) => {
                   rows={3}
                   value={currentAsset?.description}
                 />
-                <FormFieldInputTextarea
-                  disabled={formUpdating}
-                  error={errors?.description}
-                  label="Description"
-                  name="description"
+               {/* additional field add */}
+              <FromFieldInputCheckbox disabled={formUpdating}
+                  error={errors?.altText}
+                  label="Photo Licensed"
+                  name="isLicensed"
                   ref={register}
-                  rows={3}
-                  value={currentAsset?.description}
+                  value={currentAsset?.isLicensed || false} />
+
+               <FormFieldInputText
+                  disabled={formUpdating}
+                  error={errors?.altText}
+                  label="Renew Date"
+                  name="renewDate"
+                  ref={register}
+                  value={currentAsset?.renewDate ?? new Date(currentAsset?.renewDate)?.toISOString()?.split("T")[0]}
                 />
+
               </Stack>
             </TabPanel>
 

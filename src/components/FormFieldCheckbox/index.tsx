@@ -1,4 +1,4 @@
-import {Box, TextInput} from '@sanity/ui'
+import {Box, Checkbox, TextArea} from '@sanity/ui'
 import React, {forwardRef} from 'react'
 import {FieldError} from 'react-hook-form'
 
@@ -11,34 +11,33 @@ type Props = {
   label: string
   name: string
   placeholder?: string
+  rows?: number
   value?: string
-  type? : string
 }
 
-type Ref = HTMLInputElement
+type Ref = HTMLTextAreaElement
 
-const FormFieldInputText = forwardRef<Ref, Props>((props: Props, ref) => {
-  const {description, disabled, error, type, label, name, placeholder, value} = props
+const FromFieldInputCheckbox = forwardRef<Ref, Props>((props: Props, ref) => {
+  const {description, disabled, error, label, name, placeholder, rows, value} = props
 
   return (
     <Box>
       {/* Label */}
       <FormFieldInputLabel description={description} error={error} label={label} name={name} />
+
       {/* Input */}
-      <TextInput
-        autoComplete="off"
-        autoFocus
+      <Checkbox
         defaultValue={value}
         disabled={disabled}
         id={name}
-        // @ts-ignore
-        type={type}
         name={name}
         placeholder={placeholder}
+        // @ts-ignore
         ref={ref}
+        rows={rows}
       />
     </Box>
   )
 })
 
-export default FormFieldInputText
+export default FromFieldInputCheckbox

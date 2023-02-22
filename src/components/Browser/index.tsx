@@ -115,6 +115,7 @@ const BrowserContent = ({onClose}: {onClose?: any['onClose']}) => {
               <PickedBar />
               <Items />
             </Flex>
+            {/* Tag panel should have some more filtering methods -> TODO */}
             <TagsPanel />
           </Flex>
 
