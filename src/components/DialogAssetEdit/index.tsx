@@ -365,7 +365,7 @@ const DialogAssetEdit = (props: Props) => {
                   disabled={formUpdating}
                   error={errors?.altText}
                   label="Photo Licensed"
-                  onChange={(e) => console.log(e)}
+                  // onChange={(e) => console.log(e.)}
                   name="isLicensed"
                   ref={register}
                   value={currentAsset?.isLicensed}
