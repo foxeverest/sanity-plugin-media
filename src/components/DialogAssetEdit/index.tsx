@@ -63,7 +63,7 @@ const DialogAssetEdit = (props: Props) => {
   const allTagOptions = getTagSelectOptions(tags)
   // Redux
   const assetTagOptions = useTypedSelector(selectTagSelectOptions(currentAsset))
-  const [isLicensed , setIsLicensed] = useState(currentAsset?.isLicensed)
+  const [isLicensed , setIsLicensed] = useState(currentAsset?.isLicensed || false)
   const generateDefaultValues = (asset?: Asset) => ({
     altText: asset?.altText || '',
     description: asset?.description || '',
@@ -166,7 +166,7 @@ const DialogAssetEdit = (props: Props) => {
     //   // @ts-ignore
     //   payload.formData.renewDate = renewDate
     // }
-    // console.log('payload is', payload)
+    console.log('payload is', payload)
 
     dispatch(assetsActions.updateRequest(payload))
   }
@@ -368,7 +368,7 @@ const DialogAssetEdit = (props: Props) => {
                   onChange={(e) => {() => setIsLicensed(e.target?.checked)}}
                   name="isLicensed"
                   ref={register}
-                  value={currentAsset?.isLicensed}
+                  value={isLicensed}
                 />
 
 
