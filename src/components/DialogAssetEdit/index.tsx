@@ -367,16 +367,11 @@ const DialogAssetEdit = (props: Props) => {
                   disabled={formUpdating}
                   error={errors?.altText}
                   label="Photo Licensed"
-                  onChange={e => {
-                    // @ts-ignore
-                    () => setIsLicensed(e.target?.checked)
-                  }}
                   name="isLicensed"
                   ref={register}
-                  value={isLicensed}
+                  value={currentAsset?.isLicensed}
                 />
 
-                {isLicensed && (
                   <FormFieldInputText
                     disabled={formUpdating}
                     error={errors?.altText}
@@ -386,7 +381,7 @@ const DialogAssetEdit = (props: Props) => {
                     ref={register}
                     value={currentAsset?.renewDate}
                   />
-                )}
+
 
                 {/* resort reference */}
               </Stack>
