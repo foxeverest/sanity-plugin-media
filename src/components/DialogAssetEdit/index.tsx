@@ -1,6 +1,6 @@
 import {yupResolver} from '@hookform/resolvers/yup'
 // import type {any} from '@sanity/client'
-import {Box, Button, Card, Flex, Select, Stack, Tab, TabList, TabPanel, Text} from '@sanity/ui'
+import {Box, Button, Card, Flex, Inline, Select, Stack, Tab, TabList, TabPanel, Text} from '@sanity/ui'
 import {Asset, DialogAssetEditProps, ReactSelectOption} from '@types'
 import groq from 'groq'
 import React, {ReactNode, useEffect, useRef, useState} from 'react'
@@ -99,7 +99,7 @@ const DialogAssetEdit = (props: Props) => {
     dispatch(dialogActions.remove({id}))
   }
 
-  // console.log("regular checked", isLicensed)
+
 
   const handleDelete = () => {
     if (!assetItem?.asset) {
@@ -163,12 +163,6 @@ const DialogAssetEdit = (props: Props) => {
       }
     }
 
-    // if(photoLicensed) {
-    //   // @ts-ignore
-    //   payload.formData.renewDate = renewDate
-    // }
-    // console.log('payload is', payload)
-
     dispatch(assetsActions.updateRequest(payload))
   }
 
@@ -231,7 +225,17 @@ const DialogAssetEdit = (props: Props) => {
     }
   }, [lastRemovedTagIds])
 
-  // console.log('old assets', currentAsset)
+
+  useEffect(() => {
+    ;(async () => {
+      const query =  groq`*[_type == "resort"]{_id, title, "gallery" : gallery.images[0]  }`
+
+      const resorts = await client.fetch(query)
+
+      console.log(resorts)
+
+    })()
+  }, [])
 
   const Footer = () => (
     <Box padding={3}>
@@ -371,7 +375,10 @@ const DialogAssetEdit = (props: Props) => {
                       defaultValue={currentAsset?.isLicensed ?? "no"}
                      
                     >
-                      <option value='yes'>Yes</option>
+                      <option value='yes'>
+                        <Inline><div style={{height: 20, width : 20, border: "1px solid red"}} ></div></Inline>
+                        Yes
+                        </option>
                       <option value="no">No</option>
                     </Select>
                   </Stack>
