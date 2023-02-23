@@ -368,10 +368,8 @@ const DialogAssetEdit = (props: Props) => {
                       ref={register}
                       id="isLicensed"
                       name="isLicensed"
-                      defaultValue={currentAsset?.isLicensed}
-                      fontSize={[2, 2, 3, 4]}
-                      padding={[3, 3, 4]}
-                      space={[3, 3, 4]}
+                      defaultValue={currentAsset?.isLicensed ?? "no"}
+                     
                     >
                       <option value='yes'>Yes</option>
                       <option value="no">No</option>
