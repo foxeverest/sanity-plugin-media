@@ -152,8 +152,8 @@ const DialogAssetEdit = (props: Props) => {
       closeDialogId: assetItem?.asset._id,
       formData: {
         ...sanitizedFormData,
-        isLicensed : photoLicensed,
-        
+        // isLicensed : photoLicensed,
+
         // Map tags to sanity references
         opt: {
           media: {
@@ -169,16 +169,13 @@ const DialogAssetEdit = (props: Props) => {
       }
     }
 
-    console.log("payload is", payload)
+    // if(photoLicensed) {
+    //   // @ts-ignore
+    //   payload.formData.renewDate = renewDate
+    // }
+    console.log('payload is', payload)
 
-    if(photoLicensed) {
-      // @ts-ignore
-      payload.formData.renewDate = renewDate
-    }
-
-    dispatch(
-      assetsActions.updateRequest(payload)
-    )
+    dispatch(assetsActions.updateRequest(payload))
   }
 
   // Effects
@@ -239,6 +236,8 @@ const DialogAssetEdit = (props: Props) => {
       setValue('opt.media.tags', updatedTags, {shouldDirty: true})
     }
   }, [lastRemovedTagIds])
+
+  console.log('old assets', currentAsset)
 
   const Footer = () => (
     <Box padding={3}>
@@ -367,26 +366,6 @@ const DialogAssetEdit = (props: Props) => {
                   rows={3}
                   value={currentAsset?.description}
                 />
-                {/* additional field  */}
-                <label htmlFor="isLicensed">Photo Licensed</label>
-                {/* <input
-                  type={'checkbox'}
-                  name="isLicensed"
-                  id="isLicensed"
-                  ref={register}
-                  value={photoLicensed}
-                  onChange={e => setPhotoLicensed(e.target.value)}
-                />
-
-                <label htmlFor="renewDate">Renew Date</label>
-                <input
-                  type={'date'}
-                  name="renewDate"
-                  id="renewDate"
-                  ref={register}
-                  value={renewDate}
-                  onChange={e => setRenewDate(e.target.value)}
-                /> */}
 
                 <FromFieldInputCheckbox
                   disabled={formUpdating}
@@ -394,10 +373,10 @@ const DialogAssetEdit = (props: Props) => {
                   label="Photo Licensed"
                   name="isLicensed"
                   ref={register}
-                  value={photoLicensed}
+                  value={currentAsset?.isLicensed}
                 />
 
-                {photoLicensed && (
+                {currentAsset?.isLicensed && (
                   <FormFieldInputText
                     disabled={formUpdating}
                     error={errors?.altText}
@@ -405,9 +384,20 @@ const DialogAssetEdit = (props: Props) => {
                     name="renewDate"
                     type="date"
                     ref={register}
-                    value={renewDate}
+                    value={currentAsset?.renewDate}
                   />
                 )}
+
+                <FormFieldInputText
+                  disabled={formUpdating}
+                  error={errors?.altText}
+                  label="Renew Date"
+                  name="renewDate"
+                  type="date"
+                  ref={register}
+                  value={currentAsset?.renewDate}
+                />
+
                 {/* resort reference */}
               </Stack>
             </TabPanel>
