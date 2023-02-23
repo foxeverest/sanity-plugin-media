@@ -63,7 +63,7 @@ const DialogAssetEdit = (props: Props) => {
   const allTagOptions = getTagSelectOptions(tags)
   // Redux
   const assetTagOptions = useTypedSelector(selectTagSelectOptions(currentAsset))
-  const [isLicensed , setIsLicensed] = useState(currentAsset?.isLicensed || false)
+  const [isLicensed, setIsLicensed] = useState(currentAsset?.isLicensed || false)
   const generateDefaultValues = (asset?: Asset) => ({
     altText: asset?.altText || '',
     description: asset?.description || '',
@@ -98,6 +98,8 @@ const DialogAssetEdit = (props: Props) => {
   const handleClose = () => {
     dispatch(dialogActions.remove({id}))
   }
+
+  console.log("regular checked", isLicensed)
 
   const handleDelete = () => {
     if (!assetItem?.asset) {
@@ -139,6 +141,7 @@ const DialogAssetEdit = (props: Props) => {
     if (!assetItem?.asset) {
       return
     }
+    console.log("isLicense is", isLicensed)
 
     const sanitizedFormData = sanitizeFormData(formData)
     const payload = {
@@ -146,7 +149,7 @@ const DialogAssetEdit = (props: Props) => {
       closeDialogId: assetItem?.asset._id,
       formData: {
         ...sanitizedFormData,
-        isLicensed : isLicensed,
+        isLicensed,
         // Map tags to sanity references
         opt: {
           media: {
@@ -364,14 +367,16 @@ const DialogAssetEdit = (props: Props) => {
                   disabled={formUpdating}
                   error={errors?.altText}
                   label="Photo Licensed"
-                  // @ts-ignore
-                  onChange={(e) => {() => setIsLicensed(e.target?.checked)}}
+                  onChange={e => {
+                    // @ts-ignore
+                    () => setIsLicensed(e.target?.checked)
+                  }}
                   name="isLicensed"
                   ref={register}
                   value={isLicensed}
                 />
 
-
+                {isLicensed && (
                   <FormFieldInputText
                     disabled={formUpdating}
                     error={errors?.altText}
@@ -381,8 +386,7 @@ const DialogAssetEdit = (props: Props) => {
                     ref={register}
                     value={currentAsset?.renewDate}
                   />
-
-
+                )}
 
                 {/* resort reference */}
               </Stack>
