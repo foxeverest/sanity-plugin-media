@@ -138,10 +138,13 @@ const DialogAssetEdit = (props: Props) => {
 
   // - submit react-hook-form
   const onSubmit = async (formData: FormData) => {
+
+    console.log("isLicense is", isLicensed)
+
+    return
     if (!assetItem?.asset) {
       return
     }
-    console.log("isLicense is", isLicensed)
 
     const sanitizedFormData = sanitizeFormData(formData)
     const payload = {
@@ -169,7 +172,7 @@ const DialogAssetEdit = (props: Props) => {
     //   // @ts-ignore
     //   payload.formData.renewDate = renewDate
     // }
-    console.log('payload is', payload)
+    // console.log('payload is', payload)
 
     dispatch(assetsActions.updateRequest(payload))
   }
@@ -261,6 +264,10 @@ const DialogAssetEdit = (props: Props) => {
 
   if (!currentAsset) {
     return null
+  }
+
+  const checkBoxHandler = (e : any) => {
+    setIsLicensed(e.target?.checked)
   }
 
   return (
@@ -368,8 +375,9 @@ const DialogAssetEdit = (props: Props) => {
                   error={errors?.altText}
                   label="Photo Licensed"
                   name="isLicensed"
-                  ref={register}
-                  value={currentAsset?.isLicensed}
+                  onChange={checkBoxHandler}
+                  // ref={register}
+                  value={isLicensed}
                 />
 
                   <FormFieldInputText
