@@ -1,6 +1,6 @@
 import {yupResolver} from '@hookform/resolvers/yup'
 // import type {any} from '@sanity/client'
-import {Box, Button, Card, Flex, Stack, Tab, TabList, TabPanel, Text} from '@sanity/ui'
+import {Box, Button, Card, Flex, Select, Stack, Tab, TabList, TabPanel, Text} from '@sanity/ui'
 import {Asset, DialogAssetEditProps, ReactSelectOption} from '@types'
 import groq from 'groq'
 import React, {ReactNode, useEffect, useRef, useState} from 'react'
@@ -138,10 +138,6 @@ const DialogAssetEdit = (props: Props) => {
 
   // - submit react-hook-form
   const onSubmit = async (formData: FormData) => {
-
-    console.log("isLicense is", isLicensed)
-
-    return
     if (!assetItem?.asset) {
       return
     }
@@ -152,7 +148,6 @@ const DialogAssetEdit = (props: Props) => {
       closeDialogId: assetItem?.asset._id,
       formData: {
         ...sanitizedFormData,
-        isLicensed,
         // Map tags to sanity references
         opt: {
           media: {
@@ -266,10 +261,6 @@ const DialogAssetEdit = (props: Props) => {
     return null
   }
 
-  const checkBoxHandler = (e : any) => {
-    setIsLicensed(e.target?.checked)
-  }
-
   return (
     <Dialog footer={<Footer />} header="Asset details" id={id} onClose={handleClose} width={3}>
       {/*
@@ -370,26 +361,33 @@ const DialogAssetEdit = (props: Props) => {
                   value={currentAsset?.description}
                 />
 
-                <FromFieldInputCheckbox
+                <Card padding={4}>
+                  <Stack>
+                    <label htmlFor="isLicensed">Photo licensed ?</label>
+                    <Select
+                      ref={register}
+                      id="isLicensed"
+                      name="isLicensed"
+                      defaultValue={currentAsset?.isLicensed}
+                      fontSize={[2, 2, 3, 4]}
+                      padding={[3, 3, 4]}
+                      space={[3, 3, 4]}
+                    >
+                      <option value='yes'>Yes</option>
+                      <option value="no">No</option>
+                    </Select>
+                  </Stack>
+                </Card>
+
+                <FormFieldInputText
                   disabled={formUpdating}
                   error={errors?.altText}
-                  label="Photo Licensed"
-                  name="isLicensed"
-                  onChange={checkBoxHandler}
-                  // ref={register}
-                  value={{checked : isLicensed}}
+                  label="Renew Date"
+                  name="renewDate"
+                  type="date"
+                  ref={register}
+                  value={currentAsset?.renewDate}
                 />
-
-                  <FormFieldInputText
-                    disabled={formUpdating}
-                    error={errors?.altText}
-                    label="Renew Date"
-                    name="renewDate"
-                    type="date"
-                    ref={register}
-                    value={currentAsset?.renewDate}
-                  />
-
 
                 {/* resort reference */}
               </Stack>
