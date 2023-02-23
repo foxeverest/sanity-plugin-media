@@ -61,7 +61,12 @@ const DialogAssetEdit = (props: Props) => {
 
   const currentAsset = assetItem ? assetItem?.asset : assetSnapshot
   const allTagOptions = getTagSelectOptions(tags)
-
+  const [photoLicensed, setPhotoLicensed] = useState(currentAsset?.isLicensed ?? false)
+  const [renewDate, setRenewDate] = useState(
+    currentAsset?.renewDate
+      ? new Date(currentAsset?.renewDate)?.toISOString()?.split('T')[0]
+      : new Date()?.toISOString()?.split('T')[0]
+  )
   // Redux
   const assetTagOptions = useTypedSelector(selectTagSelectOptions(currentAsset))
 
@@ -142,27 +147,37 @@ const DialogAssetEdit = (props: Props) => {
     }
 
     const sanitizedFormData = sanitizeFormData(formData)
-
-    dispatch(
-      assetsActions.updateRequest({
-        asset: assetItem?.asset,
-        closeDialogId: assetItem?.asset._id,
-        formData: {
-          ...sanitizedFormData,
-          // Map tags to sanity references
-          opt: {
-            media: {
-              ...sanitizedFormData.opt.media,
-              tags:
-                sanitizedFormData.opt.media.tags?.map((tag: ReactSelectOption) => ({
-                  _ref: tag.value,
-                  _type: 'reference',
-                  _weak: true
-                })) || null
-            }
+    const payload = {
+      asset: assetItem?.asset,
+      closeDialogId: assetItem?.asset._id,
+      formData: {
+        ...sanitizedFormData,
+        isLicensed : photoLicensed,
+        
+        // Map tags to sanity references
+        opt: {
+          media: {
+            ...sanitizedFormData.opt.media,
+            tags:
+              sanitizedFormData.opt.media.tags?.map((tag: ReactSelectOption) => ({
+                _ref: tag.value,
+                _type: 'reference',
+                _weak: true
+              })) || null
           }
         }
-      })
+      }
+    }
+
+    console.log("payload is", payload)
+
+    if(photoLicensed) {
+      // @ts-ignore
+      payload.formData.renewDate = renewDate
+    }
+
+    dispatch(
+      assetsActions.updateRequest(payload)
     )
   }
 
@@ -352,25 +367,49 @@ const DialogAssetEdit = (props: Props) => {
                   rows={3}
                   value={currentAsset?.description}
                 />
-               {/* additional field add */}
-              <FromFieldInputCheckbox disabled={formUpdating}
+                {/* additional field  */}
+                <label htmlFor="isLicensed">Photo Licensed</label>
+                <input
+                  type={'checkbox'}
+                  name="isLicensed"
+                  id="isLicensed"
+                  ref={register}
+                  value={photoLicensed}
+                  onChange={e => setPhotoLicensed(e.target.value)}
+                />
+
+                <label htmlFor="renewDate">Renew Date</label>
+                <input
+                  type={'date'}
+                  name="renewDate"
+                  id="renewDate"
+                  ref={register}
+                  value={renewDate}
+                  onChange={e => setRenewDate(e.target.value)}
+                />
+
+                {/* <FromFieldInputCheckbox
+                  disabled={formUpdating}
                   error={errors?.altText}
                   label="Photo Licensed"
                   name="isLicensed"
+                  onChange={(e) => setPhotoLicensed(e)}
                   ref={register}
-                  value={currentAsset?.isLicensed || false} />
+                  value={photoLicensed}
+                />
 
-               {/* <FormFieldInputText
-                  disabled={formUpdating}
-                  error={errors?.altText}
-                  label="Renew Date"
-                  name="renewDate"
-                  type="date"
-                  ref={register}
-
-                  // value={currentAsset?.renewDate}
-                /> */}
-
+                {photoLicensed && (
+                  <FormFieldInputText
+                    disabled={formUpdating}
+                    error={errors?.altText}
+                    label="Renew Date"
+                    name="renewDate"
+                    type="date"
+                    ref={register}
+                    value={renewDate}
+                  />
+                )} */}
+                {/* resort reference */}
               </Stack>
             </TabPanel>
 
