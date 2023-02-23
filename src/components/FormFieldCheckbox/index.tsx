@@ -12,7 +12,7 @@ type Props = {
   name: string
   placeholder?: string
   rows?: number
-  value?: string,
+  value?: {checked : boolean},
   onChange? : FormEventHandler
 }
 

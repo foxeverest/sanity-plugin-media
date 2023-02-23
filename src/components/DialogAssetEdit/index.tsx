@@ -99,7 +99,7 @@ const DialogAssetEdit = (props: Props) => {
     dispatch(dialogActions.remove({id}))
   }
 
-  console.log("regular checked", isLicensed)
+  // console.log("regular checked", isLicensed)
 
   const handleDelete = () => {
     if (!assetItem?.asset) {
@@ -377,7 +377,7 @@ const DialogAssetEdit = (props: Props) => {
                   name="isLicensed"
                   onChange={checkBoxHandler}
                   // ref={register}
-                  value={isLicensed}
+                  value={{checked : isLicensed}}
                 />
 
                   <FormFieldInputText
