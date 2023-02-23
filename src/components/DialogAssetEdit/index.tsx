@@ -369,7 +369,7 @@ const DialogAssetEdit = (props: Props) => {
                 />
                 {/* additional field  */}
                 <label htmlFor="isLicensed">Photo Licensed</label>
-                <input
+                {/* <input
                   type={'checkbox'}
                   name="isLicensed"
                   id="isLicensed"
@@ -386,14 +386,13 @@ const DialogAssetEdit = (props: Props) => {
                   ref={register}
                   value={renewDate}
                   onChange={e => setRenewDate(e.target.value)}
-                />
+                /> */}
 
-                {/* <FromFieldInputCheckbox
+                <FromFieldInputCheckbox
                   disabled={formUpdating}
                   error={errors?.altText}
                   label="Photo Licensed"
                   name="isLicensed"
-                  onChange={(e) => setPhotoLicensed(e)}
                   ref={register}
                   value={photoLicensed}
                 />
@@ -408,7 +407,7 @@ const DialogAssetEdit = (props: Props) => {
                     ref={register}
                     value={renewDate}
                   />
-                )} */}
+                )}
                 {/* resort reference */}
               </Stack>
             </TabPanel>
