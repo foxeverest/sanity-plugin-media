@@ -146,8 +146,6 @@ const DialogAssetEdit = (props: Props) => {
       closeDialogId: assetItem?.asset._id,
       formData: {
         ...sanitizedFormData,
-        // isLicensed : photoLicensed,
-
         // Map tags to sanity references
         opt: {
           media: {
@@ -365,7 +363,8 @@ const DialogAssetEdit = (props: Props) => {
                   disabled={formUpdating}
                   error={errors?.altText}
                   label="Photo Licensed"
-                  // onChange={(e) => console.log(e.)}
+                  // @ts-ignore
+                  onChange={(e) => {console.log(e.target); console.log(e.target?.checked)}}
                   name="isLicensed"
                   ref={register}
                   value={currentAsset?.isLicensed}
