@@ -232,7 +232,6 @@ const DialogAssetEdit = (props: Props) => {
 
       const resorts = await client.fetch(query)
 
-      console.log(resorts)
 
     })()
   }, [])
@@ -376,7 +375,6 @@ const DialogAssetEdit = (props: Props) => {
                      
                     >
                       <option value='yes'>
-                        <Inline><div style={{height: 20, width : 20, border: "1px solid red"}} ></div></Inline>
                         Yes
                         </option>
                       <option value="no">No</option>
