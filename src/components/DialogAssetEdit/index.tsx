@@ -63,7 +63,7 @@ const DialogAssetEdit = (props: Props) => {
   const allTagOptions = getTagSelectOptions(tags)
   // Redux
   const assetTagOptions = useTypedSelector(selectTagSelectOptions(currentAsset))
-
+  const [isLicensed , setIsLicensed] = useState(currentAsset?.isLicensed)
   const generateDefaultValues = (asset?: Asset) => ({
     altText: asset?.altText || '',
     description: asset?.description || '',
@@ -146,6 +146,7 @@ const DialogAssetEdit = (props: Props) => {
       closeDialogId: assetItem?.asset._id,
       formData: {
         ...sanitizedFormData,
+        isLicensed : isLicensed,
         // Map tags to sanity references
         opt: {
           media: {
@@ -364,7 +365,7 @@ const DialogAssetEdit = (props: Props) => {
                   error={errors?.altText}
                   label="Photo Licensed"
                   // @ts-ignore
-                  onChange={(e) => {console.log(e.target); console.log(e.target?.checked)}}
+                  onChange={(e) => {() => setIsLicensed(e.target?.checked)}}
                   name="isLicensed"
                   ref={register}
                   value={currentAsset?.isLicensed}
