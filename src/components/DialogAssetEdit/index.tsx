@@ -61,12 +61,6 @@ const DialogAssetEdit = (props: Props) => {
 
   const currentAsset = assetItem ? assetItem?.asset : assetSnapshot
   const allTagOptions = getTagSelectOptions(tags)
-  const [photoLicensed, setPhotoLicensed] = useState(currentAsset?.isLicensed ?? false)
-  const [renewDate, setRenewDate] = useState(
-    currentAsset?.renewDate
-      ? new Date(currentAsset?.renewDate)?.toISOString()?.split('T')[0]
-      : new Date()?.toISOString()?.split('T')[0]
-  )
   // Redux
   const assetTagOptions = useTypedSelector(selectTagSelectOptions(currentAsset))
 
@@ -173,7 +167,7 @@ const DialogAssetEdit = (props: Props) => {
     //   // @ts-ignore
     //   payload.formData.renewDate = renewDate
     // }
-    console.log('payload is', payload)
+    // console.log('payload is', payload)
 
     dispatch(assetsActions.updateRequest(payload))
   }
@@ -237,7 +231,7 @@ const DialogAssetEdit = (props: Props) => {
     }
   }, [lastRemovedTagIds])
 
-  console.log('old assets', currentAsset)
+  // console.log('old assets', currentAsset)
 
   const Footer = () => (
     <Box padding={3}>
@@ -371,12 +365,13 @@ const DialogAssetEdit = (props: Props) => {
                   disabled={formUpdating}
                   error={errors?.altText}
                   label="Photo Licensed"
+                  onChange={(e) => console.log(e)}
                   name="isLicensed"
                   ref={register}
                   value={currentAsset?.isLicensed}
                 />
 
-                {currentAsset?.isLicensed && (
+
                   <FormFieldInputText
                     disabled={formUpdating}
                     error={errors?.altText}
@@ -386,17 +381,8 @@ const DialogAssetEdit = (props: Props) => {
                     ref={register}
                     value={currentAsset?.renewDate}
                   />
-                )}
 
-                <FormFieldInputText
-                  disabled={formUpdating}
-                  error={errors?.altText}
-                  label="Renew Date"
-                  name="renewDate"
-                  type="date"
-                  ref={register}
-                  value={currentAsset?.renewDate}
-                />
+
 
                 {/* resort reference */}
               </Stack>

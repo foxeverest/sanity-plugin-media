@@ -241,6 +241,8 @@ const assetsSlice = createSlice({
               altText,
               description,
               extension,
+              renewDate,
+              isLicensed,
               metadata {
                 dimensions,
                 exif,
