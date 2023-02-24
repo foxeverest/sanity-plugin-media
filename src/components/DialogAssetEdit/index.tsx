@@ -245,15 +245,16 @@ const DialogAssetEdit = (props: Props) => {
 
   useEffect(() => {
     ;(async () => {
-      const query = groq`*[_type == "resort"]{_id, title, "gallery" : gallery.images[0].asset->  }`
+      const query = groq`*[_type == "resort"]{_id, title, "gallery" : {..., "asset" : gallery.images[0].asset-> } }`
 
       const resorts = await client.fetch(query)
+      console.log("resort data", resorts)
       const options = resorts.map((resort: any) => {
-        console.log('image url', imageDprUrl(resort?.gallery, {height: 50, width: 50}))
+        console.log('image url', imageDprUrl(resort?.gallery?.asset, {height: 50, width: 50}))
         return {
           value: resort?._id,
           label: resort?.title,
-          image: resort?.gallery?.asset ? imageDprUrl(resort?.gallery, {height: 50, width: 50}) : ''
+          image: resort?.gallery?.asset ? imageDprUrl(resort?.gallery?.asset, {height: 50, width: 50}) : ''
         }
       })
 
