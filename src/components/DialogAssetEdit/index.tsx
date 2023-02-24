@@ -247,7 +247,6 @@ const DialogAssetEdit = (props: Props) => {
             : ''
         }
       })
-      console.log('options are', options)
       setResortReference(options)
     })()
   }, [])
@@ -415,10 +414,11 @@ const DialogAssetEdit = (props: Props) => {
                         return {color: '#000'}
                       }
                     }}
-                    value={resortRef}
+                    // @ts-ignore
+                    value={resortReference.find((item) => item?.value == resortRef?.value || item?.value == resortRef) }
                     onChange={e => setResortRef(e)}
                     options={resortReference}
-                    formatOptionLabel={resort => (
+                    formatOptionLabel={(resort : any) => (
                       <div style={{display: 'flex', alignItems: 'center'}}>
                         <div style={{height: 50, width: 50}}>
                           <Image

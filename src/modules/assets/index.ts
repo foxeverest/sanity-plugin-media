@@ -243,6 +243,7 @@ const assetsSlice = createSlice({
               extension,
               renewDate,
               isLicensed,
+              resortRef,
               metadata {
                 dimensions,
                 exif,
