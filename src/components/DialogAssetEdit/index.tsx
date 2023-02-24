@@ -178,7 +178,7 @@ const DialogAssetEdit = (props: Props) => {
         }
       }
     }
-    
+
     dispatch(assetsActions.updateRequest(payload))
   }
 
@@ -251,7 +251,7 @@ const DialogAssetEdit = (props: Props) => {
         return {
           value: resort?._id,
           label: resort?.title,
-          // image: resort?.gallery?.asset?.url ? imageDprUrl(resort?.gallery?.asset, {height: 50, width: 50}) : ''
+          image: resort?.gallery?.asset?.url
         }
       })
 
@@ -418,12 +418,12 @@ const DialogAssetEdit = (props: Props) => {
                     name="resortRef"
                     id="resortRef"
                     value={resortRef}
-                    onChange={e => setResortRef(e)}
+                    onChange={e => setResortRef(e?.value)}
                     options={resortReference}
                     formatOptionLabel={resort => (
                       <div>
-                        {resort?.image && <Image src={resort?.image} alt="resort-image" />}
-                        <span>{resort?.label}</span>
+                        <Image  height={100} width={100} src={resort?.image} alt="resort-image" />
+                        <span style={{marginRight : 4}} >{resort?.label}</span>
                       </div>
                     )}
                   />
