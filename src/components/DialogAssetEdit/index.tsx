@@ -76,6 +76,7 @@ const DialogAssetEdit = (props: Props) => {
   const [resortReference, setResortReference] = useState([])
   const currentAsset = assetItem ? assetItem?.asset : assetSnapshot
   const allTagOptions = getTagSelectOptions(tags)
+  const [resortRef, setResortRef] = useState(currentAsset?.resortRef)
   // Redux
   const assetTagOptions = useTypedSelector(selectTagSelectOptions(currentAsset))
   const [isLicensed, setIsLicensed] = useState(currentAsset?.isLicensed || false)
@@ -86,8 +87,6 @@ const DialogAssetEdit = (props: Props) => {
     opt: {media: {tags: assetTagOptions}},
     title: asset?.title || ''
   })
-
-  
 
   // Generate a string from all current tag labels
   // This is used purely to determine tag updates to then update the form in real time
@@ -156,6 +155,8 @@ const DialogAssetEdit = (props: Props) => {
     if (!assetItem?.asset) {
       return
     }
+    console.log(resortRef)
+    return
 
     const sanitizedFormData = sanitizeFormData(formData)
     const payload = {
@@ -177,12 +178,11 @@ const DialogAssetEdit = (props: Props) => {
         }
       }
     }
-    console.log("payload is", payload)
-    console.log("theme dark", studioTheme.color.dark)
-    console.log("theme color", studioTheme.color)
+    console.log('payload is', payload)
+    console.log('theme dark', studioTheme.color.dark)
+    console.log('theme color', studioTheme.color)
     dispatch(assetsActions.updateRequest(payload))
   }
-
 
   // Effects
   // - Listen for asset mutations and update snapshot
@@ -249,16 +249,15 @@ const DialogAssetEdit = (props: Props) => {
 
       const resorts = await client.fetch(query)
       const options = resorts.map((resort: any) => {
-        
+        console.log('image url', imageDprUrl(resort?.gallery, {height: 50, width: 50}))
         return {
           value: resort?._id,
           label: resort?.title,
-          image: resort?.gallery?.asset
-            ? imageDprUrl(resort?.gallery, {height: 50, width: 50})
-            : ''
+          image: resort?.gallery?.asset ? imageDprUrl(resort?.gallery, {height: 50, width: 50}) : ''
         }
       })
 
+      console.log('options', options)
       setResortReference(options)
     })()
   }, [])
@@ -391,20 +390,18 @@ const DialogAssetEdit = (props: Props) => {
                   value={currentAsset?.description}
                 />
 
-                <Card padding={4}>
-                  <Stack>
-                    <label htmlFor="isLicensed">Photo licensed ?</label>
-                    <Select
-                      ref={register}
-                      id="isLicensed"
-                      name="isLicensed"
-                      defaultValue={currentAsset?.isLicensed ?? 'no'}
-                    >
-                      <option value="yes">Yes</option>
-                      <option value="no">No</option>
-                    </Select>
-                  </Stack>
-                </Card>
+                <Box>
+                  <label htmlFor="isLicensed">Photo licensed ?</label>
+                  <Select
+                    ref={register}
+                    id="isLicensed"
+                    name="isLicensed"
+                    defaultValue={currentAsset?.isLicensed ?? 'no'}
+                  >
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </Select>
+                </Box>
 
                 <FormFieldInputText
                   disabled={formUpdating}
@@ -417,24 +414,23 @@ const DialogAssetEdit = (props: Props) => {
                 />
 
                 {/* resort reference */}
-                <Card padding={4}>
-                  <Stack>
-                    <label htmlFor="resortRef">Resort</label>
-                    <ReactSelect
-                      name="resortRef"
-                      id="resortRef"
-                      value={currentAsset?.resortRef}
-                      ref={register}
-                      options={resortReference}
-                      formatOptionLabel={resort => (
-                        <div>
-                          {resort?.image && <Image src={resort?.image} alt="resort-image" />}
-                          <span>{resort?.label}</span>
-                        </div>
-                      )}
-                    />
-                  </Stack>
-                </Card>
+
+                <Box>
+                  <label htmlFor="resortRef">Resort</label>
+                  <ReactSelect
+                    name="resortRef"
+                    id="resortRef"
+                    value={resortRef}
+                    onChange={e => setResortRef(e)}
+                    options={resortReference}
+                    formatOptionLabel={resort => (
+                      <div>
+                        {resort?.image && <Image src={resort?.image} alt="resort-image" />}
+                        <span>{resort?.label}</span>
+                      </div>
+                    )}
+                  />
+                </Box>
               </Stack>
             </TabPanel>
 
