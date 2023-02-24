@@ -1,4 +1,4 @@
-import {DownloadIcon} from '@sanity/icons'
+import {CopyIcon, DownloadIcon} from '@sanity/icons'
 import {Box, Button, Flex, Inline, Stack, Text} from '@sanity/ui'
 import {Asset, AssetItem} from '@types'
 import format from 'date-fns/format'
@@ -49,6 +49,11 @@ const AssetMetadata = (props: Props) => {
   // Callbacks
   const handleDownload = () => {
     window.location.href = `${asset.url}?dl=${asset.originalFilename}`
+  }
+
+  const copyAssetData = () => {
+    console.log( "asset", asset)
+    console.log("item", item)
   }
 
   return (
@@ -104,6 +109,16 @@ const AssetMetadata = (props: Props) => {
           />
           {/* Copy to clipboard */}
           <ButtonAssetCopy disabled={!item || item?.updating} url={asset.url} />
+
+          {/* Copy asset information */}
+          <Button
+            disabled={!item || item?.updating}
+            fontSize={1}
+            icon={CopyIcon}
+            mode="ghost"
+            onClick={copyAssetData}
+            text="Copy Data"
+          />
         </Inline>
       </Box>
     </Box>
