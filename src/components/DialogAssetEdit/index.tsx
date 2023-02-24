@@ -5,16 +5,13 @@ import {
   Button,
   Card,
   Flex,
-  Inline,
   Select,
   Stack,
-  studioTheme,
   Tab,
   TabList,
   TabPanel,
   Text,
-  ThemeColorProvider,
-  useTheme
+
 } from '@sanity/ui'
 import {Asset, DialogAssetEditProps, ReactSelectOption} from '@types'
 import groq from 'groq'
@@ -87,10 +84,6 @@ const DialogAssetEdit = (props: Props) => {
     opt: {media: {tags: assetTagOptions}},
     title: asset?.title || ''
   })
-  const theme = useTheme()
-  console.log(theme.sanity.color)
-  const stTheme = studioTheme.color
-  console.log('std', stTheme)
   // Generate a string from all current tag labels
   // This is used purely to determine tag updates to then update the form in real time
   const currentTagLabels = assetTagOptions?.map(tag => tag.label).join(',')
@@ -422,14 +415,15 @@ const DialogAssetEdit = (props: Props) => {
                   <ReactSelect
                     name="resortRef"
                     id="resortRef"
-                    // theme={}
+
+                    styles={{ menu : () => {return {color : "#000"}} }}
                     value={resortRef}
                     onChange={e => setResortRef(e?.value)}
                     options={resortReference}
                     formatOptionLabel={resort => (
-                      <div style={{display: 'flex'}}>
-                        {resort?.image && (
-                          <div style={{height: 60, width: 60}}>
+                      <div style={{display: 'flex', alignItems : "center" }}>
+
+                          <div style={{height: 50, width: 50}}>
                             <Image
                               height="100%"
                               width="100%"
@@ -438,7 +432,7 @@ const DialogAssetEdit = (props: Props) => {
                               alt="resort-image"
                             />
                           </div>
-                        )}
+
                         <div style={{marginRight: 4, flex: 1}}>{resort?.label}</div>
                       </div>
                     )}
