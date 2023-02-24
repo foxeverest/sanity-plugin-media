@@ -1,6 +1,18 @@
 import {yupResolver} from '@hookform/resolvers/yup'
 // import type {any} from '@sanity/client'
-import {Box, Button, Card, Flex, Inline, Select, Stack, Tab, TabList, TabPanel, Text} from '@sanity/ui'
+import {
+  Box,
+  Button,
+  Card,
+  Flex,
+  Inline,
+  Select,
+  Stack,
+  Tab,
+  TabList,
+  TabPanel,
+  Text
+} from '@sanity/ui'
 import {Asset, DialogAssetEditProps, ReactSelectOption} from '@types'
 import groq from 'groq'
 import React, {ReactNode, useEffect, useRef, useState} from 'react'
@@ -20,12 +32,12 @@ import AssetMetadata from '../AssetMetadata'
 import Dialog from '../Dialog'
 import DocumentList from '../DocumentList'
 import FileAssetPreview from '../FileAssetPreview'
-import FromFieldInputCheckbox from '../FormFieldCheckbox'
 import FormFieldInputTags from '../FormFieldInputTags'
 import FormFieldInputText from '../FormFieldInputText'
 import FormFieldInputTextarea from '../FormFieldInputTextarea'
 import FormSubmitButton from '../FormSubmitButton'
 import Image from '../Image'
+import ReactSelect from 'react-select'
 
 type Props = {
   children: ReactNode
@@ -58,7 +70,7 @@ const DialogAssetEdit = (props: Props) => {
   // - Generate a snapshot of the current asset
   const [assetSnapshot, setAssetSnapshot] = useState(assetItem?.asset)
   const [tabSection, setTabSection] = useState<'details' | 'references'>('details')
-
+  const [resortReference, setResortReference] = useState([])
   const currentAsset = assetItem ? assetItem?.asset : assetSnapshot
   const allTagOptions = getTagSelectOptions(tags)
   // Redux
@@ -98,8 +110,6 @@ const DialogAssetEdit = (props: Props) => {
   const handleClose = () => {
     dispatch(dialogActions.remove({id}))
   }
-
-
 
   const handleDelete = () => {
     if (!assetItem?.asset) {
@@ -162,7 +172,7 @@ const DialogAssetEdit = (props: Props) => {
         }
       }
     }
-
+    console.log("payload is", payload)
     dispatch(assetsActions.updateRequest(payload))
   }
 
@@ -225,14 +235,22 @@ const DialogAssetEdit = (props: Props) => {
     }
   }, [lastRemovedTagIds])
 
-
   useEffect(() => {
     ;(async () => {
-      const query =  groq`*[_type == "resort"]{_id, title, "gallery" : gallery.images[0]  }`
+      const query = groq`*[_type == "resort"]{_id, title, "gallery" : gallery.images[0]  }`
 
       const resorts = await client.fetch(query)
+      const options = resorts.map((resort: any) => {
+        return {
+          value: resort?._id,
+          label: resort?.title,
+          image: resort?.gallery?.asset
+            ? imageDprUrl(resort?.gallery?.asset, {height: 50, width: 50})
+            : ''
+        }
+      })
 
-
+      setResortReference(options)
     })()
   }, [])
 
@@ -371,12 +389,9 @@ const DialogAssetEdit = (props: Props) => {
                       ref={register}
                       id="isLicensed"
                       name="isLicensed"
-                      defaultValue={currentAsset?.isLicensed ?? "no"}
-                     
+                      defaultValue={currentAsset?.isLicensed ?? 'no'}
                     >
-                      <option value='yes'>
-                        Yes
-                        </option>
+                      <option value="yes">Yes</option>
                       <option value="no">No</option>
                     </Select>
                   </Stack>
@@ -393,6 +408,24 @@ const DialogAssetEdit = (props: Props) => {
                 />
 
                 {/* resort reference */}
+                <Card padding={4}>
+                  <Stack>
+                    <label htmlFor="resortRef">Resort</label>
+                    <ReactSelect
+                      name="resortRef"
+                      id="resortRef"
+                      value={currentAsset?.resortRef}
+                      ref={register}
+                      options={resortReference}
+                      formatOptionLabel={resort => (
+                        <div>
+                          {resort?.image && <Image src={resort?.image} alt="resort-image" />}
+                          <span>{resort?.label}</span>
+                        </div>
+                      )}
+                    />
+                  </Stack>
+                </Card>
               </Stack>
             </TabPanel>
 
