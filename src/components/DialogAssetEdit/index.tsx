@@ -418,7 +418,7 @@ const DialogAssetEdit = (props: Props) => {
 
                     styles={{ menuList : () => {return { color: "#000" }} }}
                     value={resortRef}
-                    onChange={e => setResortRef(e?.value)}
+                    onChange={e => setResortRef(e)}
                     options={resortReference}
                     formatOptionLabel={resort => (
                       <div style={{display: 'flex', alignItems : "center" }}>
