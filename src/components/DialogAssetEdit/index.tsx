@@ -14,7 +14,8 @@ import {
   TabPanel,
   Text,
   ThemeColorProvider,
-  useTheme
+  useTheme,
+  
 } from '@sanity/ui'
 import {Asset, DialogAssetEditProps, ReactSelectOption} from '@types'
 import groq from 'groq'
@@ -87,7 +88,8 @@ const DialogAssetEdit = (props: Props) => {
     opt: {media: {tags: assetTagOptions}},
     title: asset?.title || ''
   })
-
+  const theme = useTheme()
+console.log(theme)
   // Generate a string from all current tag labels
   // This is used purely to determine tag updates to then update the form in real time
   const currentTagLabels = assetTagOptions?.map(tag => tag.label).join(',')
@@ -417,15 +419,18 @@ const DialogAssetEdit = (props: Props) => {
                   <ReactSelect
                     name="resortRef"
                     id="resortRef"
+                    // theme={}
                     value={resortRef}
                     onChange={e => setResortRef(e?.value)}
                     options={resortReference}
                     formatOptionLabel={resort => (
                       <div style={{display : "flex"}} >
+                        {resort?.image &&
                         <div style={{height : 60, width: 60}}>
-                        <Image height="100%" width="100%"  style={{border : "2px solid red" }} src={resort?.image} alt="resort-image" />
+                        <Image height="100%" width="100%"  style={{ objectFit : "cover" }} src={resort?.image} alt="resort-image" />
                         </div>
-                        <div style={{marginRight : 4, border : "4px solid blue", flex : 1}} >{resort?.label}</div>
+                        }
+                        <div style={{marginRight : 4, flex : 1}} >{resort?.label}</div>
                       </div>
                     )}
                   />
