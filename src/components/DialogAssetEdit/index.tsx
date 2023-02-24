@@ -251,10 +251,10 @@ const DialogAssetEdit = (props: Props) => {
         return {
           value: resort?._id,
           label: resort?.title,
-          image: resort?.gallery?.asset?.url
+          image: resort?.gallery?.asset?.url ? imageDprUrl(resort?.gallery?.asset, {height: 600, width: 600}) : ""
         }
       })
-
+      console.log("options are", options)
       setResortReference(options)
     })()
   }, [])
@@ -422,8 +422,8 @@ const DialogAssetEdit = (props: Props) => {
                     options={resortReference}
                     formatOptionLabel={resort => (
                       <div>
-                        <Image  height={100} width={100} src={resort?.image} alt="resort-image" />
-                        <span style={{marginRight : 4}} >{resort?.label}</span>
+                        <Image  style={{border : "2px solid red"}} src={resort?.image} alt="resort-image" />
+                        <span style={{marginRight : 4, border : "4px solid blue"}} >{resort?.label}</span>
                       </div>
                     )}
                   />
