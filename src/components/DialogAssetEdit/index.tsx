@@ -8,10 +8,13 @@ import {
   Inline,
   Select,
   Stack,
+  studioTheme,
   Tab,
   TabList,
   TabPanel,
-  Text
+  Text,
+  ThemeColorProvider,
+  useTheme
 } from '@sanity/ui'
 import {Asset, DialogAssetEditProps, ReactSelectOption} from '@types'
 import groq from 'groq'
@@ -83,6 +86,8 @@ const DialogAssetEdit = (props: Props) => {
     opt: {media: {tags: assetTagOptions}},
     title: asset?.title || ''
   })
+
+  
 
   // Generate a string from all current tag labels
   // This is used purely to determine tag updates to then update the form in real time
@@ -173,8 +178,11 @@ const DialogAssetEdit = (props: Props) => {
       }
     }
     console.log("payload is", payload)
+    console.log("theme dark", studioTheme.color.dark)
+    console.log("theme color", studioTheme.color)
     dispatch(assetsActions.updateRequest(payload))
   }
+
 
   // Effects
   // - Listen for asset mutations and update snapshot
@@ -237,15 +245,16 @@ const DialogAssetEdit = (props: Props) => {
 
   useEffect(() => {
     ;(async () => {
-      const query = groq`*[_type == "resort"]{_id, title, "gallery" : gallery.images[0]  }`
+      const query = groq`*[_type == "resort"]{_id, title, "gallery" : gallery.images[0].asset->  }`
 
       const resorts = await client.fetch(query)
       const options = resorts.map((resort: any) => {
+        
         return {
           value: resort?._id,
           label: resort?.title,
           image: resort?.gallery?.asset
-            ? imageDprUrl(resort?.gallery?.asset, {height: 50, width: 50})
+            ? imageDprUrl(resort?.gallery, {height: 50, width: 50})
             : ''
         }
       })
