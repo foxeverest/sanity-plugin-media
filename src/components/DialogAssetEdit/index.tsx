@@ -251,7 +251,7 @@ const DialogAssetEdit = (props: Props) => {
         return {
           value: resort?._id,
           label: resort?.title,
-          image: resort?.gallery?.asset?.url ? imageDprUrl(resort?.gallery?.asset, {height: 600, width: 600}) : ""
+          image: resort?.gallery?.asset?.url ? imageDprUrl(resort?.gallery?.asset, {height: 60, width: 60}) : ""
         }
       })
       console.log("options are", options)
