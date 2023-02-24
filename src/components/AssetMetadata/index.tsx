@@ -1,6 +1,7 @@
 import {CopyIcon, DownloadIcon} from '@sanity/icons'
-import {Box, Button, Flex, Inline, Stack, Text} from '@sanity/ui'
+import {Box, Button, Flex, Inline, Stack, Text, useToast} from '@sanity/ui'
 import {Asset, AssetItem} from '@types'
+import copy from 'copy-to-clipboard'
 import format from 'date-fns/format'
 import filesize from 'filesize'
 import React, {ReactNode} from 'react'
@@ -45,15 +46,23 @@ const AssetMetadata = (props: Props) => {
   const {asset, item} = props
 
   const exif = asset?.metadata?.exif
-
+  const toast = useToast()
   // Callbacks
   const handleDownload = () => {
     window.location.href = `${asset.url}?dl=${asset.originalFilename}`
   }
 
   const copyAssetData = () => {
-    console.log( "asset", asset)
-    console.log("item", item)
+    const payload = {
+      _type: 'image',
+      asset: {
+        _ref: asset._id,
+        type: 'reference'
+      }
+    }
+    copy(JSON.stringify(payload))
+
+    toast.push({id: '1', title: 'Data copied to clipboard', status: 'success'})
   }
 
   return (
