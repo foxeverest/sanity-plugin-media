@@ -1,18 +1,6 @@
 import {yupResolver} from '@hookform/resolvers/yup'
 // import type {any} from '@sanity/client'
-import {
-  Box,
-  Button,
-  Card,
-  Flex,
-  Select,
-  Stack,
-  Tab,
-  TabList,
-  TabPanel,
-  Text,
-
-} from '@sanity/ui'
+import {Box, Button, Card, Flex, Select, Stack, Tab, TabList, TabPanel, Text} from '@sanity/ui'
 import {Asset, DialogAssetEditProps, ReactSelectOption} from '@types'
 import groq from 'groq'
 import React, {ReactNode, useEffect, useRef, useState} from 'react'
@@ -151,8 +139,6 @@ const DialogAssetEdit = (props: Props) => {
     if (!assetItem?.asset) {
       return
     }
-    console.log(resortRef)
-    return
 
     const sanitizedFormData = sanitizeFormData(formData)
     const payload = {
@@ -173,6 +159,15 @@ const DialogAssetEdit = (props: Props) => {
           }
         }
       }
+    }
+
+    if (resortRef?.value) {
+      // @ts-ignore
+      payload.formData.resortRef = resortRef?.value
+    } else {
+      // @ts-ignore
+
+      payload.formData.resortRef = resortRef
     }
 
     dispatch(assetsActions.updateRequest(payload))
@@ -415,23 +410,25 @@ const DialogAssetEdit = (props: Props) => {
                   <ReactSelect
                     name="resortRef"
                     id="resortRef"
-
-                    styles={{ menuList : () => {return { color: "#000" }} }}
+                    styles={{
+                      menuList: () => {
+                        return {color: '#000'}
+                      }
+                    }}
                     value={resortRef}
                     onChange={e => setResortRef(e)}
                     options={resortReference}
                     formatOptionLabel={resort => (
-                      <div style={{display: 'flex', alignItems : "center" }}>
-
-                          <div style={{height: 50, width: 50}}>
-                            <Image
-                              height="100%"
-                              width="100%"
-                              style={{objectFit: 'cover'}}
-                              src={resort?.image}
-                              alt="resort-image"
-                            />
-                          </div>
+                      <div style={{display: 'flex', alignItems: 'center'}}>
+                        <div style={{height: 50, width: 50}}>
+                          <Image
+                            height="100%"
+                            width="100%"
+                            style={{objectFit: 'cover'}}
+                            src={resort?.image}
+                            alt="resort-image"
+                          />
+                        </div>
 
                         <div style={{marginLeft: 4, flex: 1}}>{resort?.label}</div>
                       </div>
