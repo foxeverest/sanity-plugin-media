@@ -416,7 +416,7 @@ const DialogAssetEdit = (props: Props) => {
                     name="resortRef"
                     id="resortRef"
 
-                    styles={{ menu : () => {return {color : "#000"}} }}
+                    styles={{ menuList : () => {return { color: "#000" }} }}
                     value={resortRef}
                     onChange={e => setResortRef(e?.value)}
                     options={resortReference}
@@ -433,7 +433,7 @@ const DialogAssetEdit = (props: Props) => {
                             />
                           </div>
 
-                        <div style={{marginRight: 4, flex: 1}}>{resort?.label}</div>
+                        <div style={{marginLeft: 4, flex: 1}}>{resort?.label}</div>
                       </div>
                     )}
                   />
