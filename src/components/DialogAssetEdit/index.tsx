@@ -421,9 +421,11 @@ const DialogAssetEdit = (props: Props) => {
                     onChange={e => setResortRef(e?.value)}
                     options={resortReference}
                     formatOptionLabel={resort => (
-                      <div>
-                        <Image  style={{border : "2px solid red"}} src={resort?.image} alt="resort-image" />
-                        <span style={{marginRight : 4, border : "4px solid blue"}} >{resort?.label}</span>
+                      <div style={{display : "flex"}} >
+                        <div style={{height : 60, width: 60}}>
+                        <Image height="100%" width="100%"  style={{border : "2px solid red" }} src={resort?.image} alt="resort-image" />
+                        </div>
+                        <div style={{marginRight : 4, border : "4px solid blue", flex : 1}} >{resort?.label}</div>
                       </div>
                     )}
                   />
