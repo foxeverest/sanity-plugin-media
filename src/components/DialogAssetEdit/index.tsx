@@ -380,7 +380,7 @@ const DialogAssetEdit = (props: Props) => {
                 />
 
                 <Box>
-                  <label htmlFor="isLicensed">Photo licensed ?</label>
+                  <label style={{marginBottom : 2}} htmlFor="isLicensed">Photo licensed ?</label>
                   <Select
                     ref={register}
                     id="isLicensed"
@@ -405,7 +405,7 @@ const DialogAssetEdit = (props: Props) => {
                 {/* resort reference */}
 
                 <Box>
-                  <label htmlFor="resortRef">Resort</label>
+                  <label style={{marginBottom : 2}} htmlFor="resortRef">Resort</label>
                   <ReactSelect
                     name="resortRef"
                     id="resortRef"
